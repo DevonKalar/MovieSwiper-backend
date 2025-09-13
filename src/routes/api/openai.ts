@@ -3,7 +3,7 @@ import { openaiService } from '../../services/openaiService';
 
 const router = Router();
 
-// Post endpoint to handle OpenAI requests
+// handle sending messages to OpenAI and getting responses
 router.post('/response', async (req, res) => {
     try {
         const { input, previous_response_id } = req.body;
@@ -24,6 +24,7 @@ router.post('/response', async (req, res) => {
     }
     })
 
+// handle retrieving a specific response by ID
 router.get('/response/:id', async (req, res) => {
     try {
         const { id } = req.params;
