@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { openaiService } from '../../services/openaiService';
 
-const router = Router();
+const openaiRouter = Router();
 
 // handle sending messages to OpenAI and getting responses
-router.post('/response', async (req, res) => {
+openaiRouter.post('/response', async (req, res) => {
     try {
         const { input, previous_response_id } = req.body;
         if (!input) {
@@ -25,7 +25,7 @@ router.post('/response', async (req, res) => {
     })
 
 // handle retrieving a specific response by ID
-router.get('/response/:id', async (req, res) => {
+openaiRouter.get('/response/:id', async (req, res) => {
     try {
         const { id } = req.params;
 
@@ -43,4 +43,4 @@ router.get('/response/:id', async (req, res) => {
     }
 })
 
-export default router;
+export default openaiRouter;

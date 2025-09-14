@@ -1,3 +1,5 @@
+import { Request } from 'express';
+
 const baseURL = "https://api.themoviedb.org/3/";
 
 export const fetchMovieDetails = async (movieId: number) => {
@@ -7,6 +9,7 @@ export const fetchMovieDetails = async (movieId: number) => {
     const response = await fetch(url, {
       headers: {
         Authorization: `Bearer ${process.env.TMDB_BEARER_TOKEN}`,
+        'Content-Type': 'application/json;charset=utf-8',
       },
     });
     if (!response.ok) {
@@ -20,10 +23,11 @@ export const fetchMovieDetails = async (movieId: number) => {
   }
 }
 
-export const fetchMoviesByGenre = async (genres: string[] = ["878", "53"], page: number = 1) => {
-  const genreString = genres.join("%7C");
-  const url = `${baseURL}discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc&with_genres=${genreString}`;
-  console.log("Fetching movies from:", url);
+export const fetchMoviesByQuery = async (req: Request) => {
+  const baseURL = "https://api.themoviedb.org/3/";
+  const queryString = req.url?.split('?')[1] || '';
+  const url = `${baseURL}discover/movie?${queryString}`;
+  console.log("Fetching movies by query from:", url);
   try {
     const response = await fetch(url, {
       method: 'GET',
