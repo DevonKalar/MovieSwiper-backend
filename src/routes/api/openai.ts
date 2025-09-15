@@ -28,9 +28,7 @@ openaiRouter.post('/response', async (req, res) => {
 openaiRouter.get('/response/:id', async (req, res) => {
     try {
         const { id } = req.params;
-
         const response = await openaiService.retrieveResponse(id);
-
         res.json({
             id: response.id,
             output_text: response.output_text,

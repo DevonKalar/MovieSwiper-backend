@@ -27,9 +27,10 @@ export const fetchMoviesByQuery = async (req: Request) => {
   const baseURL = "https://api.themoviedb.org/3/";
   const queryString = req.url?.split('?')[1] || '';
   const url = `${baseURL}discover/movie?${queryString}`;
-  console.log("Fetching movies by query from:", url);
+  const testUrl = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=878%7C53"
+  console.log("Fetching movies by query from:", testUrl);
   try {
-    const response = await fetch(url, {
+    const response = await fetch(testUrl, {
       method: 'GET',
       headers: {
         accept: 'application/json',
