@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { fetchGenres, fetchMovieDetails, fetchMoviesByQuery } from '../../services/tmdbService';
+import { tmdbService } from '../../services/tmdbService';
 
 const moviesRouter = Router();
 
@@ -8,7 +8,7 @@ const moviesRouter = Router();
 moviesRouter.get('/details/:id', async (req: Request, res: Response) => {
     try {
         const movieId = parseInt(req.params.id, 10);
-        const movieDetails = await fetchMovieDetails(movieId);
+        const movieDetails = await tmdbService.fetchMovieDetails(movieId);
         if (!movieDetails) {
             return res.status(404).json({ error: 'Movie not found' });
         }
@@ -21,7 +21,7 @@ moviesRouter.get('/details/:id', async (req: Request, res: Response) => {
 
 moviesRouter.get('/movies', async (req: Request, res: Response) => {
     try {
-        const movies = await fetchMoviesByQuery(req);
+        const movies = await tmdbService.fetchMoviesByQuery(req);
         res.json(movies);
     } catch (error) {
         console.error("Error fetching movies:", error);
@@ -31,7 +31,7 @@ moviesRouter.get('/movies', async (req: Request, res: Response) => {
 
 moviesRouter.get('/genres', async (req: Request, res: Response) => {
     try {
-        const genres = await fetchGenres();
+        const genres = await tmdbService.fetchGenres();
         res.json(genres);
     } catch (error) {
         console.error("Error fetching genres:", error);
