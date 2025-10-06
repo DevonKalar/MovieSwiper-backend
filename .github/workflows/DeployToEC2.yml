@@ -29,6 +29,7 @@ jobs:
           --parameters 'commands=[
             "set -ex",
             "echo Starting deployment",
+            "git config --global --add safe.directory /home/ec2-user/MovieSwiper-backend",
             "cd /home/ec2-user/MovieSwiper-backend",
             "echo Pulling latest code",
             "git pull origin master",
