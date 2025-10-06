@@ -23,36 +23,37 @@ jobs:
       id: deploy
       continue-on-error: true
       run: |
-        COMMAND_ID=$(aws ssm send-command \
-          --instance-ids "${{ secrets.EC2_INSTANCE_ID }}" \
-          --document-name "AWS-RunShellScript" \
-          --parameters 'commands=[
-            "set -ex",
-            "echo Starting deployment",
-            "git config --global --add safe.directory /home/ec2-user/MovieSwiper-backend",
-            "cd /home/ec2-user/MovieSwiper-backend",
-            "echo Pulling latest code",
-            "git pull origin master",
-            "echo Installing dependencies",
-            "npm install",
-            "echo Building application",
-            "npm run build",
-            "echo Restarting application",
-            "pkill -f \"node\" || true",
-            "nohup npm start > app.log 2>&1 &",
-            "sleep 2",
-            "tail -20 app.log",
-            "echo Deployment complete!"
-          ]' \
-          --output text \
-          --query "Command.CommandId")
-        
-        echo "Command ID: $COMMAND_ID"
-        echo "command_id=$COMMAND_ID" >> $GITHUB_OUTPUT
-        
-        aws ssm wait command-executed \
-          --command-id "$COMMAND_ID" \
-          --instance-id "${{ secrets.EC2_INSTANCE_ID }}"
+      COMMAND_ID=$(aws ssm send-command \
+        --instance-ids "${{ secrets.EC2_INSTANCE_ID }}" \
+        --document-name "AWS-RunShellScript" \
+        --parameters 'commands=[
+          "set -ex",
+          "export HOME=/root",
+          "echo Starting deployment",
+          "git config --global --add safe.directory /home/ec2-user/MovieSwiper-backend",
+          "cd /home/ec2-user/MovieSwiper-backend",
+          "echo Pulling latest code",
+          "git pull origin master",
+          "echo Installing dependencies",
+          "npm install",
+          "echo Building application",
+          "npm run build",
+          "echo Restarting application",
+          "pkill -f \"node\" || true",
+          "nohup npm start > app.log 2>&1 &",
+          "sleep 2",
+          "tail -20 app.log",
+          "echo Deployment complete!"
+        ]' \
+        --output text \
+        --query "Command.CommandId")
+      
+      echo "Command ID: $COMMAND_ID"
+      echo "command_id=$COMMAND_ID" >> $GITHUB_OUTPUT
+      
+      aws ssm wait command-executed \
+        --command-id "$COMMAND_ID" \
+        --instance-id "${{ secrets.EC2_INSTANCE_ID }}"
     
     - name: Get command output
       if: always()
