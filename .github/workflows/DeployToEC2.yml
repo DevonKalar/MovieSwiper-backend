@@ -25,11 +25,19 @@ jobs:
           --instance-ids "${{ secrets.EC2_INSTANCE_ID }}" \
           --document-name "AWS-RunShellScript" \
           --parameters 'commands=[
+            "set -e",
+            "echo Starting deployment",
             "cd ~/MovieSwiper-backend",
+            "echo Pulling latest code",
             "git pull origin master",
+            "echo Installing depencies",
             "npm install",
+            "echo Building application",
             "npm run build",
-            "pm2 restart MovieSwiper-backend || pm2 start npm --name MovieSwiper-backend -- start"
+            "echo Restarting application",
+            "pkill -f \"node\" || true",
+            "nohup npm start > app.log 2>&1 &",
+            "echo Deployment complete!"
           ]' \
           --output text \
           --query "Command.CommandId")
