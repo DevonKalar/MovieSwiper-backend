@@ -26,7 +26,7 @@ jobs:
           --document-name "AWS-RunShellScript" \
           --parameters 'commands=[
             "cd ~/MovieSwiper-backend",
-            "git pull origin main",
+            "git pull origin master",
             "npm install",
             "npm run build",
             "pm2 restart MovieSwiper-backend || pm2 start npm --name MovieSwiper-backend -- start"
