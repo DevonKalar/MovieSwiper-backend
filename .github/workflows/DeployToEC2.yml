@@ -53,3 +53,20 @@ jobs:
           --instance-id "${{ secrets.EC2_INSTANCE_ID }}" \
           --query "StandardOutputContent" \
           --output text
+
+          - name: Get command output on failure
+            if: always()
+            run: |
+              echo "=== STDOUT ==="
+              aws ssm get-command-invocation \
+                --command-id "6b437fbd-e48e-4937-8b78-c44e121c8c99" \
+                --instance-id "${{ secrets.EC2_INSTANCE_ID }}" \
+                --query "StandardOutputContent" \
+                --output text
+              
+              echo "=== STDERR ==="
+              aws ssm get-command-invocation \
+                --command-id "6b437fbd-e48e-4937-8b78-c44e121c8c99" \
+                --instance-id "${{ secrets.EC2_INSTANCE_ID }}" \
+                --query "StandardErrorContent" \
+                --output text
