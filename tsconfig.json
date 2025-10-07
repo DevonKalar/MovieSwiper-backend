@@ -7,7 +7,16 @@
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "outDir": "./dist",
-        "rootDir": "./src"
+        "rootDir": "./src",
+        "baseUrl": "./src",
+        "paths": {
+            "@types/*": ["types/*"],
+            "@middleware/*": ["middleware/*"],
+            "@routes/*": ["routes/*"],
+            "@services/*": ["services/*"],
+            "@db": ["config/db.ts"],
+            "@schema/*": ["config/schema/*"]
+        },
     },
     "include": ["src"],
     "exclude": ["node_modules", "dist", "**/*.test.ts"]

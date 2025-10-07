@@ -15,5 +15,5 @@ app.listen(config.port, () => {
 });
 
 app.get('/', (req, res) => {
-    res.json({ message: 'Dabu' });
+    res.json({ message: 'I am ready' });
 });
