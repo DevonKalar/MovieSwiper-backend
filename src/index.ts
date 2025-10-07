@@ -6,6 +6,7 @@ import routes from './routes/index';
 const app = express();
 
 app.use(express.json());
+console.log('CORS Origins:', config.corsOrigins);
 app.use(cors({ origin: config.corsOrigins }));
 app.use(routes);
 
